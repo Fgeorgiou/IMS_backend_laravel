@@ -19,10 +19,4 @@ class Sale extends Model
     {
         return $this->hasMany(\App\SalesProduct::class);
     }
-
-    public function products()
-    {
-        return $this->hasManyThrough(\App\Product::class, \App\SalesProduct::class);
-    }
-
 }

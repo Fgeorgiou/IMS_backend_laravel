@@ -9,15 +9,15 @@ class CreateProductsTable extends Migration {
 	{
 		Schema::create('products', function(Blueprint $table) {
 			$table->increments('id');
-			$table->string('product_name', 50);
+			$table->integer('category_id')->unsigned();
+			$table->integer('supplier_id')->unsigned();
+			$table->string('name', 50);
 			$table->integer('unit_per_pack')->unsigned();
 			$table->integer('unit_net_weight_gr')->unsigned();
 			$table->integer('unit_gross_weight_gr')->unsigned();
 			$table->integer('lead_days')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->integer('category_id')->unsigned();
-			$table->integer('supplier_id')->unsigned();
 		});
 	}
 

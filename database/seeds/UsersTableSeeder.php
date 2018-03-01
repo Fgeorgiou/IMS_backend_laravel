@@ -15,7 +15,8 @@ class UsersTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         User::create([
-        	'role_id' => '3',
+            'id' => 1,
+        	'role_id' => 3,
         	'facility_id' => 1,
             'first_name' => 'Admin',
             'last_name' => 'istrator',
@@ -24,7 +25,7 @@ class UsersTableSeeder extends Seeder
 
         for ($i = 1; $i < 11; $i++) {
             User::create([
-                'id' => $i,
+                'id' => $i + 1,
 	        	'role_id' => $faker->numberBetween($min = 1, $max = 2),
 	        	'facility_id' => $faker->numberBetween($min = 1, $max = 10),
 	            'first_name' => $faker->firstName,
