@@ -15,4 +15,14 @@ class Sale extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function sale_products()
+    {
+        return $this->hasMany(\App\SalesProduct::class);
+    }
+
+    public function products()
+    {
+        return $this->hasManyThrough(\App\Product::class, \App\SalesProduct::class);
+    }
+
 }

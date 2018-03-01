@@ -16,4 +16,9 @@ class Supplier extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('name', 'email');
 
+    public function products()
+    {
+        return $this->hasMany(\App\Product::class);
+    }
+
 }

@@ -16,4 +16,8 @@ class Role extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('description', 'access_level');
 
+    public function users()
+    {
+        return $this->hasMany(\App\User::class);
+    }
 }

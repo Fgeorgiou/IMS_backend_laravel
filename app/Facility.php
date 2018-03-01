@@ -16,4 +16,8 @@ class Facility extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('name', 'email', 'address');
 
+    public function users()
+    {
+        return $this->hasMany(\App\User::class);
+    }
 }

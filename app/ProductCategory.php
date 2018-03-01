@@ -16,4 +16,9 @@ class ProductCategory extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('name');
 
+    public function products()
+    {
+        return $this->hasMany(\App\Product::class);
+    }
+
 }

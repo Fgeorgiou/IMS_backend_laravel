@@ -10,8 +10,8 @@ class CreateFacilitiesTable extends Migration {
 		Schema::create('facilities', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('name', 50);
-			$table->string('email', 50);
-			$table->string('address', 50);
+			$table->string('email', 50)->unique();
+			$table->string('address', 120);
 			$table->timestamps();
 			$table->softDeletes();
 		});

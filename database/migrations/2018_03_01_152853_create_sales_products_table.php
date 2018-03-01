@@ -9,11 +9,11 @@ class CreateSalesProductsTable extends Migration {
 	{
 		Schema::create('sales_products', function(Blueprint $table) {
 			$table->increments('id');
+			$table->integer('sale_id')->unsigned();
+			$table->integer('product_id')->unsigned();
+			$table->integer('quantity')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
-			$table->integer('product_id')->unsigned();
-			$table->integer('sale_id')->unsigned();
-			$table->integer('quantity')->unsigned();
 		});
 	}
 

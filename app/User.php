@@ -25,16 +25,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // public function students()
-    // {
-    //     return $this->belongsToMany(\App\Student::class, 'enrollments');
-    // }
-    // public function lessons()
-    // {
-    //     return $this->hasMany(\App\Lesson::class);
-    // }
-    // public function lessonhours()
-    // {
-    //     return $this->hasManyThrough(\App\Lessonhour::class, \App\Lesson::class);
-    // }
+    public function orders()
+    {
+        return $this->hasMany(\App\Order::class);
+    }
 }

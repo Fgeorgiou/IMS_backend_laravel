@@ -9,11 +9,11 @@ class CreateOrdersProductsTable extends Migration {
 	{
 		Schema::create('orders_products', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
-			$table->softDeletes();
 			$table->integer('order_id')->unsigned();
 			$table->integer('product_id')->unsigned();
 			$table->integer('quantity')->unsigned();
+			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
