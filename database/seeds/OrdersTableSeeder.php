@@ -16,7 +16,8 @@ class OrdersTableSeeder extends Seeder
 
         for ($i = 1; $i < 11; $i++) {
             Order::create([
-                'user_id' => $faker->numberBetween($min = 1, $max = 10)
+                'user_id' => $faker->numberBetween($min = 1, $max = 10),
+                'status_id' => 1
             ]);
         }
     }

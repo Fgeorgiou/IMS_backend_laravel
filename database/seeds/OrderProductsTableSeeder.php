@@ -18,6 +18,7 @@ class OrderProductsTableSeeder extends Seeder
        		OrdersProduct::create([
        			'order_id' => $faker->numberBetween($min = 1, $max = 10),
        			'product_id' => $faker->numberBetween($min = 1, $max = 10),
+            'status_id' =>  1,
        			'quantity' => $faker->numberBetween($min = 1, $max = 10)
        		]);
        	}

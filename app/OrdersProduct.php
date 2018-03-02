@@ -21,4 +21,9 @@ class OrdersProduct extends Model
         return $this->hasMany(\App\Product::class);
     }
 
+    public function status()
+    {
+        return $this->hasMany(\App\Status::class);
+    }
+
 }
