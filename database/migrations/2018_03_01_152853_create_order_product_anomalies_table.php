@@ -11,6 +11,7 @@ class CreateOrderProductAnomaliesTable extends Migration {
 			$table->increments('id');
 			$table->integer('order_id')->unsigned();
 			$table->integer('product_id')->unsigned();
+			$table->integer('status_id')->unsigned();
 			$table->integer('quantity')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();

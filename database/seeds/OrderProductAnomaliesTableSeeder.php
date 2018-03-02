@@ -18,6 +18,7 @@ class OrderProductAnomaliesTableSeeder extends Seeder
        		OrderProductAnomaly::create([
        			'order_id' => $faker->numberBetween($min = 1, $max = 10),
        			'product_id' => $faker->numberBetween($min = 1, $max = 10),
+            'status_id' =>  $faker->numberBetween($min = 3, $max = 5),
        			'quantity' => $faker->numberBetween($min = 1, $max = 10)
        		]);
        	}

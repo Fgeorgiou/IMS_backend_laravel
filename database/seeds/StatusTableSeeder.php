@@ -12,7 +12,7 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
-        $status_codes = ['Pending', 'Confirmed'];
+        $status_codes = ['Pending', 'Confirmed', 'Warehouse Shortage', 'Supplier Shortage', 'Seasonal Product'];
 
         for ($i = 0; $i < count($status_codes); $i++) {
             Status::create([
