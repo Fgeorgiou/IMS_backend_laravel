@@ -20,7 +20,8 @@ class UsersTableSeeder extends Seeder
         	'facility_id' => 1,
             'first_name' => 'Admin',
             'last_name' => 'istrator',
-            'email' => 'admin@test.com'
+            'email' => 'admin@test.com',
+            'password' => bcrypt('secret')
         ]);
 
         for ($i = 1; $i < 11; $i++) {
@@ -30,7 +31,8 @@ class UsersTableSeeder extends Seeder
 	        	'facility_id' => $faker->numberBetween($min = 1, $max = 10),
 	            'first_name' => $faker->firstName,
 	            'last_name' => $faker->lastName,
-	            'email' => $faker->email
+	            'email' => $faker->email,
+                'password' => bcrypt('secret')
             ]);
         }
     }
