@@ -58,8 +58,10 @@ class OrderController extends Controller
 
     $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
     $product_id = DB::table('products')->where('barcode', request('barcode'))->value('id');
+    $item_exists = OrdersProduct::where('order_id', $current_order)->where('product_id', $product_id);
 
-    if ($item_exists = OrdersProduct::where('order_id', $current_order)->where('product_id', $product_id)->exists()){
+    if ($item_exists->exists()){
+      $item_exists->update(['quantity' => request('quantity')]);
       return back();
     }
 
