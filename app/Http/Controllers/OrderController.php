@@ -51,16 +51,21 @@ class OrderController extends Controller
    */
   public function store()
   {
-    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
-
     $this->validate(request(), [
       'barcode' => 'required',
       'quantity' => 'required'
     ]);
 
+    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    $product_id = DB::table('products')->where('barcode', request('barcode'))->value('id');
+
+    if ($item_exists = OrdersProduct::where('order_id', $current_order)->where('product_id', $product_id)->exists()){
+      return back();
+    }
+
     OrdersProduct::create([
       'order_id' => $current_order,
-      'product_id' => DB::table('products')->where('barcode', request('barcode'))->value('id'),
+      'product_id' => $product_id,
       'status_id' => 1,
       'quantity' => request('quantity')
     ]);
@@ -109,7 +114,10 @@ class OrderController extends Controller
    */
   public function destroy($id)
   {
-    
+    OrdersProduct::find($id)->delete();
+
+    return 
+    back();
   }
   
 }

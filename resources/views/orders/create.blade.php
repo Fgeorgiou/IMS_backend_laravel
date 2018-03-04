@@ -6,7 +6,7 @@
 <body>
 	<h1>Make an Order</h1>
 
-	<form method="POST" action="/orders/new">
+	<form method="POST" action="/orders/create">
 		{{ csrf_field() }}
 
 		Barcode:<select name="barcode">
@@ -41,6 +41,9 @@
 			<td> {{ $prod->product->barcode }} </td>
 			<td> {{ $prod->product->name }} </td>
 			<td> {{ $prod->quantity }} </td>
+			<td>
+				<button><a href="{{ url('/orders/delete/'.$prod->id) }}">Delete</a></button>
+			</td>
 		</tr>
 		@endforeach
 	</table>

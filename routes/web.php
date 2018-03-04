@@ -23,5 +23,6 @@ Route::post('/login', 'SessionsController@store');
 Route::get('/logout', 'SessionsController@destroy');
 
 Route::get('/orders', 'OrderController@index');
-Route::get('/orders/new', 'OrderController@create');
-Route::post('/orders/new', 'OrderController@store');
+Route::get('/orders/create', 'OrderController@create');
+Route::post('/orders/create', 'OrderController@store');
+Route::get('/orders/delete/{id}', 'OrderController@destroy');
