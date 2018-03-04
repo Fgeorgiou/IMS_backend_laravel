@@ -20,6 +20,7 @@ class ProductsTableSeeder extends Seeder
 	        	'category_id' => $faker->numberBetween($min = 1, $max = 3),
 	        	'supplier_id' => $faker->numberBetween($min = 1, $max = 3),
 	            'name' => $faker->lastName,
+                'barcode' => $faker->ean13,
 	            'unit_per_pack' => $faker->numberBetween($min = 1, $max = 40),
 	            'unit_net_weight_gr' => $faker->numberBetween($min = 500, $max = 11000),
 	            'unit_gross_weight_gr' => $faker->numberBetween($min = 550, $max = 11500),

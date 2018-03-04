@@ -16,9 +16,9 @@ class OrdersProduct extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('order_id', 'product_id', 'status_id', 'quantity');
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(\App\Product::class);
+        return $this->belongsTo(\App\Product::class);
     }
 
     public function status()

@@ -14,7 +14,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name', 'category_id', 'supplier_id', 'unit_net_weight_gr', 'unit_gross_weight_gr', 'lead_days');
+    protected $fillable = array('name', 'barcode', 'category_id', 'supplier_id', 'unit_net_weight_gr', 'unit_gross_weight_gr', 'lead_days');
 
     public function supplier()
     {
@@ -24,5 +24,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(\App\ProductCategory::class);
+    }
+
+    public function order_products()
+    {
+        return $this->hasMany(\App\OrdersProduct::class);
     }
 }

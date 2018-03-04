@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use \App\Order;
+use \App\OrdersProduct;
+
 
 class OrderController extends Controller 
 {
@@ -14,7 +18,7 @@ class OrderController extends Controller
    */
   public function index()
   {
-    
+    return view('orders.index');
   }
 
   /**
@@ -24,7 +28,20 @@ class OrderController extends Controller
    */
   public function create()
   {
-    
+    $product_barcodes = DB::table('products')->pluck('barcode');
+    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    $current_order_products = OrdersProduct::where('order_id', '=' , $current_order)->get();
+
+    if($current_order == null){
+      Order::create([
+          'user_id' => auth()->id(),
+          'status_id' => 2
+      ]);
+
+      return \App::make('redirect')->refresh();
+    }
+
+    return view('orders.create', compact('product_barcodes', 'current_order_products'));
   }
 
   /**
@@ -32,9 +49,23 @@ class OrderController extends Controller
    *
    * @return Response
    */
-  public function store(Request $request)
+  public function store()
   {
-    
+    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+
+    $this->validate(request(), [
+      'barcode' => 'required',
+      'quantity' => 'required'
+    ]);
+
+    OrdersProduct::create([
+      'order_id' => $current_order,
+      'product_id' => DB::table('products')->where('barcode', request('barcode'))->value('id'),
+      'status_id' => 1,
+      'quantity' => request('quantity')
+    ]);
+
+    return \App::make('redirect')->refresh();
   }
 
   /**
