@@ -64,3 +64,17 @@ Route::get('/roles/create', 'RoleController@create');
 Route::post('/roles/create', 'RoleController@store');
 Route::get('/roles/update/{id}', 'RoleController@update');
 Route::get('/roles/delete/{id}', 'RoleController@destroy');
+
+//Facilities Model routes
+Route::get('/facilities', 'FacilityController@index');
+Route::get('/facilities/create', 'FacilityController@create');
+Route::post('/facilities/create', 'FacilityController@store');
+Route::get('/facilities/update/{id}', 'FacilityController@update');
+Route::get('/facilities/delete/{id}', 'FacilityController@destroy');
+
+//Product Categories Model routes
+Route::get('/product_categories', 'ProductCategoryController@index');
+Route::get('/product_categories/create', 'ProductCategoryController@create');
+Route::post('/product_categories/create', 'ProductCategoryController@store');
+Route::get('/product_categories/update/{id}', 'ProductCategoryController@update');
+Route::get('/product_categories/delete/{id}', 'ProductCategoryController@destroy');

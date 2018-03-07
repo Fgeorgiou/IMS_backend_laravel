@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\ProductCategory;
 
-class CategoryController extends Controller 
+class ProductCategoryController extends Controller 
 {
 
   /**
@@ -14,7 +15,9 @@ class CategoryController extends Controller
    */
   public function index()
   {
-    
+    $product_categories = ProductCategory::all();
+
+    return view('product_categories.index', compact('product_categories'));
   }
 
   /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
    */
   public function create()
   {
-    
+    return view('product_categories.create');
   }
 
   /**
@@ -34,7 +37,17 @@ class CategoryController extends Controller
    */
   public function store(Request $request)
   {
-    
+      $this->validate(request(), [
+        'name' => 'required',
+      ]);
+
+        $prod_category = ProductCategory::create([
+          'name' => request('name')
+        ]);
+
+      $prod_category->save();
+
+      return redirect('/product_categories');
   }
 
   /**
@@ -67,7 +80,13 @@ class CategoryController extends Controller
    */
   public function update($id)
   {
-    
+      $product_category = ProductCategory::find($id);
+
+      $product_category->name = "Clothing";
+
+      $product_category->save();
+
+      return back();
   }
 
   /**
@@ -78,7 +97,9 @@ class CategoryController extends Controller
    */
   public function destroy($id)
   {
-    
+      ProductCategory::find($id)->delete();
+
+      return back();
   }
   
 }

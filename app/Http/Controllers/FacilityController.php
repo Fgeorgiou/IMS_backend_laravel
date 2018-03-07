@@ -37,7 +37,21 @@ class FacilityController extends Controller
    */
   public function store(Request $request)
   {
-    
+      $this->validate(request(), [
+        'name' => 'required',
+        'email' => 'required|email',
+        'address' => 'required'
+      ]);
+
+        $facility = Facility::create([
+          'name' => request('name'),
+          'email' => request('email'),
+          'address' => request('address')
+        ]);
+
+      $facility->save();
+
+      return redirect('/facilities');
   }
 
   /**
@@ -70,7 +84,13 @@ class FacilityController extends Controller
    */
   public function update($id)
   {
-    
+      $facility = Facility::find($id);
+
+      $facility->name = "Petrompany";
+
+      $facility->save();
+
+      return back(); 
   }
 
   /**
@@ -81,7 +101,9 @@ class FacilityController extends Controller
    */
   public function destroy($id)
   {
-    
+      Facility::find($id)->delete();
+
+      return back();
   }
   
 }
