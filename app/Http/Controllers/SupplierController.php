@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Supplier;
 
 class SupplierController extends Controller 
 {
@@ -14,7 +15,9 @@ class SupplierController extends Controller
    */
   public function index()
   {
-    
+    $suppliers = Supplier::all();
+
+    return view('suppliers.index', compact('suppliers'));
   }
 
   /**
@@ -24,7 +27,7 @@ class SupplierController extends Controller
    */
   public function create()
   {
-    
+    return view('suppliers.create');
   }
 
   /**
@@ -34,7 +37,19 @@ class SupplierController extends Controller
    */
   public function store(Request $request)
   {
-    
+      $this->validate(request(), [
+        'name' => 'required',
+        'email' => 'required|email',
+      ]);
+
+        $supplier = Supplier::create([
+          'name' => request('name'),
+          'email' => request('email'),
+        ]);
+
+      $supplier->save();
+
+      return redirect('/suppliers');
   }
 
   /**
@@ -56,7 +71,7 @@ class SupplierController extends Controller
    */
   public function edit($id)
   {
-    
+
   }
 
   /**
@@ -67,7 +82,13 @@ class SupplierController extends Controller
    */
   public function update($id)
   {
-    
+      $supplier = Supplier::find($id);
+
+      $supplier->name = "Petrakis";
+
+      $supplier->save();
+
+      return back();    
   }
 
   /**
@@ -78,7 +99,9 @@ class SupplierController extends Controller
    */
   public function destroy($id)
   {
-    
+      Supplier::find($id)->delete();
+
+      return back();
   }
   
 }

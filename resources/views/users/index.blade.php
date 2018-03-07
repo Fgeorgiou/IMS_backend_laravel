@@ -4,6 +4,7 @@
 	<title></title>
 </head>
 <body>
+	<h1>Users</h1>
 	<table>
 		<tr>
 			<th>First Name</th>
@@ -20,7 +21,7 @@
 			<td> {{ $user->facility->name }} </td>
 			<td> {{ $user->role->description }} </td>
 			<td>
-				<button><a href="{{ url('/users/edit/'.$user->id) }}">Edit</a></button>
+				<button><a href="{{ url('/users/update/'.$user->id) }}">Edit</a></button>
 			</td>
 			<td>
 				<button><a href="{{ url('/users/delete/'.$user->id) }}">Delete</a></button>

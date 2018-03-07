@@ -51,7 +51,7 @@ class UserController extends Controller
     	return redirect('/users');
     }
     
-    public function edit($id)
+    public function update($id)
     {
     	$user = User::find($id);
 
@@ -62,7 +62,7 @@ class UserController extends Controller
     	return back();
     }
     
-    public function delete($id)
+    public function destroy($id)
     {
 	    User::find($id)->delete();
 

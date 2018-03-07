@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Facility;
 
 class FacilityController extends Controller 
 {
@@ -14,7 +15,9 @@ class FacilityController extends Controller
    */
   public function index()
   {
-    
+    $facilities = Facility::all();
+
+    return view('facilities.index', compact('facilities'));
   }
 
   /**
@@ -24,7 +27,7 @@ class FacilityController extends Controller
    */
   public function create()
   {
-    
+    return view('facilities.create');
   }
 
   /**

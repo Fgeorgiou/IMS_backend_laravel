@@ -14,7 +14,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name', 'barcode', 'category_id', 'supplier_id', 'unit_net_weight_gr', 'unit_gross_weight_gr', 'lead_days');
+    protected $fillable = array('name', 'barcode', 'category_id', 'supplier_id', 'unit_per_pack', 'unit_net_weight_gr', 'unit_gross_weight_gr', 'lead_days');
 
     public function supplier()
     {

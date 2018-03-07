@@ -4,6 +4,7 @@
 	<title>Add Users</title>
 </head>
 <body>
+	<h1>Add Users</h1>
 	<form method="POST" action="/users/create">
 		{{ csrf_field() }}
 

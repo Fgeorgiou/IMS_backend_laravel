@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Status;
 
 class StatusController extends Controller 
 {
@@ -14,7 +15,9 @@ class StatusController extends Controller
    */
   public function index()
   {
-    
+    $statuses = Status::all();
+
+    return view('status.index', compact('statuses'));
   }
 
   /**
@@ -24,7 +27,7 @@ class StatusController extends Controller
    */
   public function create()
   {
-    
+    return view('status.create');
   }
 
   /**
@@ -67,7 +70,13 @@ class StatusController extends Controller
    */
   public function update($id)
   {
-    
+      $status = Status::find($id);
+
+      $status->name = "Petro-status";
+
+      $status->save();
+
+      return back(); 
   }
 
   /**
@@ -78,7 +87,9 @@ class StatusController extends Controller
    */
   public function destroy($id)
   {
-    
+    Status::find($id)->delete();
+
+    return back();
   }
   
 }
