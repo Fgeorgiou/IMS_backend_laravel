@@ -4,16 +4,17 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $table = 'users';
+    public $timestamps = true;
+
+    protected $dates = ['deleted_at'];
     protected $fillable = array('first_name', 'last_name', 'email', 'password', 'role_id', 'facility_id');
 
     /**
@@ -28,5 +29,15 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(\App\Order::class);
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(\App\Facility::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(\App\Role::class);
     }
 }

@@ -26,3 +26,9 @@ Route::get('/orders', 'OrderController@index');
 Route::get('/orders/create', 'OrderController@create');
 Route::post('/orders/create', 'OrderController@store');
 Route::get('/orders/delete/{id}', 'OrderController@destroy');
+
+Route::get('/users', 'UserController@index');
+Route::get('/users/create', 'UserController@create');
+Route::post('/users/create', 'UserController@store');
+Route::get('/users/edit/{id}', 'UserController@edit');
+Route::get('/users/delete/{id}', 'UserController@delete');

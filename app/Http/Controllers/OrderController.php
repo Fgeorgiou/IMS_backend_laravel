@@ -118,8 +118,7 @@ class OrderController extends Controller
   {
     OrdersProduct::find($id)->delete();
 
-    return 
-    back();
+    return back();
   }
   
 }
