@@ -17,7 +17,9 @@ class StatusController extends Controller
   {
     $statuses = Status::all();
 
-    return view('status.index', compact('statuses'));
+    return response()->json([
+      'data' => $statuses->toArray()
+    ], 200);
   }
 
   /**
@@ -68,15 +70,14 @@ class StatusController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, Status $status)
   {
-      $status = Status::find($id);
+      $status->update($request->all());
 
-      $status->name = "Petro-status";
-
-      $status->save();
-
-      return back(); 
+      return response()->json([
+          'message' => 'Record was edited successfully!',
+          'data' => $status->toArray()
+        ], 200); 
   }
 
   /**
@@ -85,11 +86,11 @@ class StatusController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Status $status)
   {
-    Status::find($id)->delete();
+      $status->delete();
 
-    return back();
+      return response()->json(null, 204);
   }
   
 }

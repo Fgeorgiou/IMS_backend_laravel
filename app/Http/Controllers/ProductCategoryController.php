@@ -17,7 +17,9 @@ class ProductCategoryController extends Controller
   {
     $product_categories = ProductCategory::all();
 
-    return view('product_categories.index', compact('product_categories'));
+    return response()->json([
+      'data' => $product_categories->toArray()
+    ], 200);  
   }
 
   /**
@@ -78,15 +80,14 @@ class ProductCategoryController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, ProductCategory $product_category)
   {
-      $product_category = ProductCategory::find($id);
+      $product_category->update($request->all());
 
-      $product_category->name = "Clothing";
-
-      $product_category->save();
-
-      return back();
+      return response()->json([
+          'message' => 'Record was edited successfully!',
+          'data' => $product_category->toArray()
+        ], 200); 
   }
 
   /**
@@ -95,11 +96,11 @@ class ProductCategoryController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(ProductCategory $product_category)
   {
-      ProductCategory::find($id)->delete();
+      $product_category->delete();
 
-      return back();
+      return response()->json(null, 204);
   }
   
 }

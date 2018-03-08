@@ -11,6 +11,11 @@ use \App\OrdersProduct;
 class OrderController extends Controller 
 {
 
+  // public function __construct()
+  // {
+  //   $this->middleware('auth', ['except' => 'index']);
+  // }
+
   /**
    * Display a listing of the resource.
    *
@@ -18,7 +23,15 @@ class OrderController extends Controller
    */
   public function index()
   {
-    return view('orders.index');
+    $orders = Order::all();
+    $order_products = OrdersProduct::where('order_id', 16)->get();
+
+    return response()->json([
+      'order' => [
+        'order_info' => $orders->toArray(), 
+        'order_products' => $order_products->toArray()
+     ]
+    ], 200);
   }
 
   /**
@@ -103,7 +116,7 @@ class OrderController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, $id)
   {
     
   }
@@ -116,9 +129,9 @@ class OrderController extends Controller
    */
   public function destroy($id)
   {
-    OrdersProduct::find($id)->delete();
+      OrdersProduct::findOrFail($id)->delete();
 
-    return back();
+      return response()->json(null, 204);
   }
   
 }

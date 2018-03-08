@@ -51,22 +51,21 @@ class UserController extends Controller
     	return redirect('/users');
     }
     
-    public function update($id)
+    public function update(User $user)
     {
-    	$user = User::find($id);
+        $user->update($request->all());
 
-    	$user->first_name = "Petros";
-
-    	$user->save();
-
-    	return back();
+        return response()->json([
+            'message' => 'Record was edited successfully!',
+            'data' => $user->toArray()
+          ], 200);  
     }
     
-    public function destroy($id)
+    public function destroy(User $user)
     {
-	    User::find($id)->delete();
+	    $user->delete();
 
-	    return back();
+	    return response()->json(null, 204);
     }
     
 }

@@ -17,7 +17,9 @@ class SupplierController extends Controller
   {
     $suppliers = Supplier::all();
 
-    return view('suppliers.index', compact('suppliers'));
+    return response()->json([
+      'data' => $suppliers->toArray()
+    ], 200);
   }
 
   /**
@@ -80,15 +82,14 @@ class SupplierController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, Supplier $supplier)
   {
-      $supplier = Supplier::find($id);
+      $supplier->update($request->all());
 
-      $supplier->name = "Petrakis";
-
-      $supplier->save();
-
-      return back();    
+      return response()->json([
+          'message' => 'Record was edited successfully!',
+          'data' => $supplier->toArray()
+        ], 200);   
   }
 
   /**
@@ -97,11 +98,11 @@ class SupplierController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Supplier $supplier)
   {
-      Supplier::find($id)->delete();
+      $supplier->delete();
 
-      return back();
+      return response()->json(null, 204);
   }
   
 }

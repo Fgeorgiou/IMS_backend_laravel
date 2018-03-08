@@ -17,7 +17,9 @@ class RoleController extends Controller
   {
       $roles = Role::all();
 
-      return view('roles.index', compact('roles')); 
+    return response()->json([
+      'data' => $roles->toArray()
+    ], 200); 
   }
 
   /**
@@ -80,16 +82,14 @@ class RoleController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, Role $role)
   {
-      $role = Role::find($id);
+      $role->update($request->all());
 
-      $role->description = "Senior Employee";
-      $role->access_level = 15;
-
-      $role->save();
-
-      return back();
+      return response()->json([
+          'message' => 'Record was edited successfully!',
+          'data' => $role->toArray()
+        ], 200); 
   }
 
   /**
@@ -98,11 +98,11 @@ class RoleController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Role $role)
   {
-      Role::find($id)->delete();
+      $role->delete();
 
-      return back();
+      return response()->json(null, 204);
   }
   
 }

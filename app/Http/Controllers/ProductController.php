@@ -19,7 +19,9 @@ class ProductController extends Controller
   {
     $products = Product::all();
 
-    return view('products.index', compact('products'));    
+    return response()->json([
+      'data' => $products->toArray()
+    ], 200);   
   }
 
   /**
@@ -97,15 +99,14 @@ class ProductController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, Product $product)
   {
-      $product = Product::find($id);
+      $product->update($request->all());
 
-      $product->name = "Palaio Tyri 'Petr-cheese'";
-
-      $product->save();
-
-      return back();
+      return response()->json([
+          'message' => 'Record was edited successfully!',
+          'data' => $product->toArray()
+        ], 200); 
   }
 
   /**
@@ -114,11 +115,11 @@ class ProductController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Product $product)
   {
-      Product::find($id)->delete();
+      $product->delete();
 
-      return back();
+      return response()->json(null, 204);
   }
   
 }

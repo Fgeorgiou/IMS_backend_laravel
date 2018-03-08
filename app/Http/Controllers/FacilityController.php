@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Facades\Response;
 use \App\Facility;
 
 class FacilityController extends Controller 
@@ -17,7 +18,9 @@ class FacilityController extends Controller
   {
     $facilities = Facility::all();
 
-    return view('facilities.index', compact('facilities'));
+    return response()->json([
+      'data' => $facilities->toArray()
+    ], 200);
   }
 
   /**
@@ -27,7 +30,7 @@ class FacilityController extends Controller
    */
   public function create()
   {
-    return view('facilities.create');
+    
   }
 
   /**
@@ -43,15 +46,18 @@ class FacilityController extends Controller
         'address' => 'required'
       ]);
 
-        $facility = Facility::create([
-          'name' => request('name'),
-          'email' => request('email'),
-          'address' => request('address')
-        ]);
+      $facility = Facility::create([
+        'name' => request('name'),
+        'email' => request('email'),
+        'address' => request('address')
+      ]);
 
       $facility->save();
 
-      return redirect('/facilities');
+      return response()->json([
+        'message' => 'New record was successful!',
+        'data' => $facility->toArray()
+      ], 201);
   }
 
   /**
@@ -62,7 +68,7 @@ class FacilityController extends Controller
    */
   public function show($id)
   {
-    
+
   }
 
   /**
@@ -82,15 +88,14 @@ class FacilityController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, Facility $facility)
   {
-      $facility = Facility::find($id);
+      $facility->update($request->all());
 
-      $facility->name = "Petrompany";
-
-      $facility->save();
-
-      return back(); 
+      return response()->json([
+        'message' => 'Record was edited successfully!',
+        'data' => $facility->toArray()
+      ], 200);
   }
 
   /**
@@ -99,11 +104,11 @@ class FacilityController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Facility $facility)
   {
-      Facility::find($id)->delete();
+      $facility->delete();
 
-      return back();
+      return response()->json(null, 204);
   }
   
 }
