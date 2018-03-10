@@ -15,7 +15,7 @@ class User extends Authenticatable
     public $timestamps = true;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('first_name', 'last_name', 'email', 'password', 'role_id', 'facility_id');
+    protected $fillable = array('first_name', 'last_name', 'email', 'password', 'api_token', 'role_id', 'facility_id');
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,6 +25,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function generateToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
+    }
 
     public function orders()
     {

@@ -17,6 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Registration routes
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('/register', 'Auth\RegisterController@register');
+
+//Login routes
+//Route::get('/login', 'Auth\LoginController@create');
+Route::post('/login', 'Auth\LoginController@store');
+Route::get('/logout', 'Auth\LoginController@destroy');
+
 //Order Model routes
 Route::get('/orders', 'OrderController@index');
 Route::get('/orders/create', 'OrderController@create');

@@ -16,13 +16,13 @@ Route::get('/', function () {
 });
 
 //Registration routes
-Route::get('/register', 'RegistrationsController@create');
-Route::post('/register', 'RegistrationsController@store');
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('/register', 'Auth\RegisterController@register');
 
 //Session routes
-Route::get('/login', 'SessionsController@create');
-Route::post('/login', 'SessionsController@store');
-Route::get('/logout', 'SessionsController@destroy');
+//Route::get('/login', 'Auth\LoginController@create');
+Route::post('/login', 'Auth\LoginController@store');
+Route::get('/logout', 'Auth\LoginController@destroy');
 
 //Order Model routes
 Route::get('/orders', 'OrderController@index');

@@ -21,7 +21,8 @@ class UsersTableSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'istrator',
             'email' => 'admin@test.com',
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
+            'api_token' => str_random(60)
         ]);
 
         for ($i = 1; $i < 11; $i++) {
@@ -32,7 +33,8 @@ class UsersTableSeeder extends Seeder
 	            'first_name' => $faker->firstName,
 	            'last_name' => $faker->lastName,
 	            'email' => $faker->email,
-                'password' => bcrypt('secret')
+                'password' => bcrypt('secret'),
+                'api_token' => str_random(60)
             ]);
         }
     }
