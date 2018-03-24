@@ -30,4 +30,9 @@ class Product extends Model
     {
         return $this->hasMany(\App\OrdersProduct::class);
     }
+
+    public function stock()
+    {
+        return $this->hasOne(\App\Stock::class);
+    }
 }
