@@ -17,14 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Registration routes
-Route::get('/register', 'Auth\RegisterController@showRegistrationForm');
+//Registration, Login & Logout routes
 Route::post('/register', 'Auth\RegisterController@register');
-
-//Login routes
-//Route::get('/login', 'Auth\LoginController@create');
-Route::post('/login', 'Auth\LoginController@store');
-Route::get('/logout', 'Auth\LoginController@destroy');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/logout', 'Auth\LoginController@logout');
 
 //Order Model routes
 Route::get('/orders', 'OrderController@index');
@@ -34,7 +30,7 @@ Route::get('/orders/delete/{id}', 'OrderController@destroy');
 
 //User Model routes
 Route::get('/users', 'UserController@index');
-Route::post('/users/create', 'UserController@store');
+Route::post('/users/create', 'UserController@store'); 
 Route::put('/users/update/{user}', 'UserController@update');
 Route::get('/users/delete/{user}', 'UserController@destroy');
 
