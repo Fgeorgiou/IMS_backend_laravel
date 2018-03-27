@@ -30,7 +30,8 @@ Route::get('/orders/delete/{id}', 'OrderController@destroy');
 
 //User Model routes
 Route::get('/users', 'UserController@index');
-Route::post('/users/create', 'UserController@store'); 
+Route::post('/users/create', 'UserController@store');
+Route::get('/users/{id}', 'UserController@show');
 Route::put('/users/update/{user}', 'UserController@update');
 Route::get('/users/delete/{user}', 'UserController@destroy');
 

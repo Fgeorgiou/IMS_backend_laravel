@@ -11,19 +11,15 @@ class UserController extends Controller
 {
     public function index()
     {
-    	$facilities = Facility::all();
-    	$roles = Role::all();
-    	$users = User::all();
-
-    	return view('users.index', compact('users', 'facilities', 'roles'));
+        return response()->json(
+            ["data" => User::all()],
+            200
+        );
     }
 
     public function create()
     {
-    	$facilities = DB::table('facilities')->get();
-    	$roles = DB::table('roles')->get();
 
-		return view('users.create', compact('facilities', 'roles'));
     }
 
     public function store()
@@ -48,8 +44,15 @@ class UserController extends Controller
 
     	$user->save();
 
-    	return redirect('/users');
+    	return response()->json($user, 201);
     }
+
+      public function show($id)
+      {
+        return response()->json([
+          'data' => User::find($id)->toArray()
+        ], 200);
+      }
     
     public function update(User $user)
     {
