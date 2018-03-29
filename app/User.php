@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'deleted_at', 'remember_token', 'api_token'
+        'deleted_at', 'remember_token',
     ];
 
     public function generateToken()
