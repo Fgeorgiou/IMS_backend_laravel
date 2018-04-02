@@ -16,6 +16,15 @@ class OrdersProduct extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('order_id', 'product_id', 'status_id', 'quantity');
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at', 'created_at', 'updated_at'
+    ];
+
     public function product()
     {
         return $this->belongsTo(\App\Product::class);

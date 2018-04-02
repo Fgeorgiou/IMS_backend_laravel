@@ -14,10 +14,10 @@ class OrderProductsTableSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i < 51; $i++) {
+        for ($i = 0; $i < 50; $i++) {
        		OrdersProduct::create([
-       			'order_id' => $faker->numberBetween($min = 1, $max = 10),
-       			'product_id' => $faker->numberBetween($min = 1, $max = 10),
+       			'order_id' => $faker->numberBetween($min = 1, $max = 11),
+       			'product_id' => $faker->unique()->numberBetween($min = 1, $max = 50),
             'status_id' =>  2,
        			'quantity' => $faker->numberBetween($min = 1, $max = 10)
        		]);

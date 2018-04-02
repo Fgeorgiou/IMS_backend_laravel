@@ -24,10 +24,10 @@ class OrderController extends Controller
   public function index()
   {
     $orders = Order::all();
-    $order_products = OrdersProduct::where('order_id', 16)->get();
+    $order_products = OrdersProduct::where('order_id', 8)->get();
 
     return response()->json([
-      'order' => [
+      'orders' => [
         'order_info' => $orders->toArray(), 
         'order_products' => $order_products->toArray()
      ]
@@ -39,22 +39,33 @@ class OrderController extends Controller
    *
    * @return Response
    */
-  public function create()
+  public function create(Request $request)
   {
-    $product_barcodes = DB::table('products')->pluck('barcode');
     $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
     $current_order_products = OrdersProduct::where('order_id', '=' , $current_order)->get();
 
-    if($current_order == null){
-      Order::create([
-          'user_id' => auth()->id(),
-          'status_id' => 2
-      ]);
-
-      return \App::make('redirect')->refresh();
+    foreach ($current_order_products as $prod) {
+      $prod->product->stock;
     }
 
-    return view('orders.create', compact('product_barcodes', 'current_order_products'));
+    if($current_order == null){
+      Order::create([
+          'user_id' => request('user_id'),
+          'status_id' => 1
+      ]);
+
+      $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    }
+
+    return response()->json(
+      ["current_order" => 
+        [
+          'order_id' => $current_order,
+          'order_products' => $current_order_products->toArray()
+        ]
+      ],
+      200
+    );
   }
 
   /**
