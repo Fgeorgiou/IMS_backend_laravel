@@ -138,11 +138,12 @@ class OrderController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Request $request)
   {
-      OrdersProduct::findOrFail($id)->delete();
+    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    $product_to_delete = OrdersProduct::where('order_id', '=' , $current_order)->where('product_id', '=', request('id'))->delete();
 
-      return response()->json(null, 204);
+    return response()->json(null, 204);
   }
   
 }
