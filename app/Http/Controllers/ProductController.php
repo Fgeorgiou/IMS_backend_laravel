@@ -77,9 +77,17 @@ class ProductController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function show($id)
+  public function show($ean)
   {
-    
+    $product_to_show = Product::where('barcode', '=', $ean)->first();
+
+    if ($product_to_show != null){
+      return response()->json([
+        'data' => $product_to_show->toArray()
+      ], 200);
+    }
+
+    return response()->json(null, 204);
   }
 
   /**

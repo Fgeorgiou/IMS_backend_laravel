@@ -44,6 +44,7 @@ Route::get('/suppliers/delete/{supplier}', 'SupplierController@destroy');
 //Product Model routes
 Route::get('/products', 'ProductController@index');
 Route::post('/products/create', 'ProductController@store');
+Route::get('/products/show/{id}', 'ProductController@show');
 Route::put('/products/update/{product}', 'ProductController@update');
 Route::get('/products/delete/{product}', 'ProductController@destroy');
 
