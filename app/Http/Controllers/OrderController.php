@@ -86,7 +86,11 @@ class OrderController extends Controller
 
     if ($item_exists->exists()){
       $item_exists->update(['quantity' => request('quantity')]);
-      return back();
+      return response()->json(["response" => [
+        'message' => 'Updated existing item!',
+        'request_code' => 204
+        ]
+      ]);
     }
 
     OrdersProduct::create([
@@ -96,7 +100,11 @@ class OrderController extends Controller
       'quantity' => request('quantity')
     ]);
 
-    return \App::make('redirect')->refresh();
+    return response()->json(["response" => [
+      'message' => 'Added item!',
+      'request_code' => 200
+      ]
+    ]);
   }
 
   /**

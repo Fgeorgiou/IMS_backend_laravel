@@ -15,8 +15,8 @@ class ProductsTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         $product_names = ['Blue Cheese', 'Blue Jeans', 'Shampoo', 'Tomatoes', 'Batteries', 
                             'Frozen Fish', 'Jambon', 'Wine Bottle', 'Whiskey Bottle', 'Backpack',
-                            'Chicken - Livers', 'Chicken - Legs', 'Chicken - Breast', 'Chicken - Wings', 'Chicken - Whole',
-                            'Grapes - Black', 'Grapes - Red', 'Grapes - White', 'Grapes - Green', 'Strawberries',
+                            'Chicken Livers', 'Chicken Legs', 'Chicken Breast', 'Chicken Wings', 'Chicken Whole',
+                            'Grapes Black', 'Grapes Red', 'Grapes White', 'Grapes Green', 'Strawberries',
                             'Watermelons', 'Melons', 'Salami', 'Prosciutto', 'Rum',
                             'Bacon', 'Clams', 'Eel', 'Pears', 'Apples',
                             'Turnips', 'Beer', 'Tea', 'Onion Relish', 'Olvies',

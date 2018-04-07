@@ -14,7 +14,7 @@ class ProductStockSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 51; $i++) {
             Stock::create([
                 'id' => $i,
 	        	'product_id' => $i,

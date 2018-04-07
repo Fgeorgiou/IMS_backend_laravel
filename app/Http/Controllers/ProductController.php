@@ -81,6 +81,10 @@ class ProductController extends Controller
   {
     $product_to_show = Product::where('barcode', '=', $ean)->first();
 
+    if($product_to_show != null){
+      $product_to_show->stock;
+    }
+
     if ($product_to_show != null){
       return response()->json([
         'data' => $product_to_show->toArray()
