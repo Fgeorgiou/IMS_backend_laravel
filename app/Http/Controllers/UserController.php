@@ -11,8 +11,15 @@ class UserController extends Controller
 {
     public function index()
     {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $user->facility;
+            $user->role;
+        }
+
         return response()->json(
-            ["data" => User::all()],
+            ["users" => $users->toArray()],
             200
         );
     }

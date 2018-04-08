@@ -18,7 +18,7 @@ class SupplierController extends Controller
     $suppliers = Supplier::all();
 
     return response()->json([
-      'data' => $suppliers->toArray()
+      'suppliers' => $suppliers->toArray()
     ], 200);
   }
 

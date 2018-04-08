@@ -18,7 +18,7 @@ class ProductCategoryController extends Controller
     $product_categories = ProductCategory::all();
 
     return response()->json([
-      'data' => $product_categories->toArray()
+      'product_categories' => $product_categories->toArray()
     ], 200);  
   }
 

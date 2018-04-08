@@ -20,7 +20,7 @@ class ProductController extends Controller
     $products = Product::all();
 
     return response()->json([
-      'data' => $products->toArray()
+      'products' => $products->toArray()
     ], 200);   
   }
 
