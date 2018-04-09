@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\User;
 use \App\Facility;
 use \App\Role;
+use Validator;
 
 class UserController extends Controller
 {
@@ -29,16 +30,25 @@ class UserController extends Controller
 
     }
 
-    public function store()
+    public function store(Request $request)
     {
-    	$this->validate(request(), [
+    	$validator = Validator::make($request->all(), [
     		'first_name' => 'required',
     		'last_name' => 'required',
     		'facility' => 'required',
     		'role' => 'required',
-    		'email' => 'required|email',
-            'password' => 'required|confirmed'
+    		'email' => 'required|email|unique:users',
+            'password' => 'required'
     	]);
+
+        if($validator->fails()){
+            $message = $validator->errors();
+            return response()->json([
+                'message' => 'Oops! Something went wrong!',
+                'status' => 400,
+                'errors' => $message
+            ]);  
+        }
 
         $user = User::create([
             'first_name' => request('first_name'),
@@ -49,9 +59,14 @@ class UserController extends Controller
             'password' => bcrypt(request('password'))
         ]);
 
-    	$user->save();
+        $user->save();
 
-    	return response()->json($user, 201);
+        return response()->json([
+            'message' => 'User created successful!',
+            'status' => 201,
+            'user' => $user->toArray()
+        ]);
+
     }
 
       public function show($id)
@@ -71,9 +86,9 @@ class UserController extends Controller
           ], 200);  
     }
     
-    public function destroy(User $user)
+    public function destroy($id)
     {
-	    $user->delete();
+	    User::where('id', '=', $id)->delete();
 
 	    return response()->json(null, 204);
     }
