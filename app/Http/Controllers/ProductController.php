@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use \App\Product;
 use \App\Supplier;
 use \App\ProductCategory;
+use \App\Stock;
+use DB;
 
 class ProductController extends Controller 
 {
@@ -31,10 +33,7 @@ class ProductController extends Controller
    */
   public function create()
   {
-    $prod_categories = ProductCategory::all();
-    $suppliers = Supplier::all();
 
-    return view('products.create', compact('prod_categories', 'suppliers'));
   }
 
   /**
@@ -66,9 +65,16 @@ class ProductController extends Controller
           'lead_days' => request('lead_days')
         ]);
 
-      $product->save();
+        $product->save();
 
-      return redirect('/products');
+        $stock = Stock::create([
+          'product_id' => DB::table('products')->max('id'),
+          'quantity' => 0
+        ]);
+
+        $stock->save();
+
+      return $product;
   }
 
   /**
