@@ -25,7 +25,8 @@ Route::post('/logout', 'Auth\LoginController@logout');
 //Order Model routes
 Route::get('/orders', 'OrderController@index');
 Route::get('/orders/create', 'OrderController@create');
-Route::post('/orders/create', 'OrderController@store');
+Route::post('/orders/store', 'OrderController@store');
+Route::post('/order_products/store', 'OrdersProductController@store');
 Route::get('/orders/delete', 'OrderController@destroy');
 
 //User Model routes

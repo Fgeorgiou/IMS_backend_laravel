@@ -23,15 +23,7 @@ class OrderController extends Controller
    */
   public function index()
   {
-    $orders = Order::all();
-    $order_products = OrdersProduct::where('order_id', 8)->get();
 
-    return response()->json([
-      'orders' => [
-        'order_info' => $orders->toArray(), 
-        'order_products' => $order_products->toArray()
-     ]
-    ], 200);
   }
 
   /**
@@ -41,20 +33,29 @@ class OrderController extends Controller
    */
   public function create(Request $request)
   {
-    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    //The controller will search the DB for an order record with pending status and will fetch the corresponding products
+    $current_order = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
     $current_order_products = OrdersProduct::where('order_id', '=' , $current_order)->get();
 
+    //For every product in the current order, attach product and stock info
     foreach ($current_order_products as $prod) {
       $prod->product->stock;
     }
 
+    //If no pending order is found, the controller will seek a confirmed order
     if($current_order == null){
-      Order::create([
-          'user_id' => request('user_id'),
-          'status_id' => 1
-      ]);
-
-      $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+      $current_order = DB::table('orders')->where('status_id', '=', '2')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+      
+      //On the case that neither a pending nor a confirmed order exists today, the controller will make a new one
+      if($current_order == null){
+        Order::create([
+            'user_id' => request('user_id'),
+            'status_id' => 1
+        ]);
+        $current_order = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+      } else {
+        return response()->json("Today's order is sent. Check back tomorrow.");
+      }
     }
 
     return response()->json(
@@ -75,36 +76,7 @@ class OrderController extends Controller
    */
   public function store()
   {
-    $this->validate(request(), [
-      'barcode' => 'required',
-      'quantity' => 'required'
-    ]);
-
-    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
-    $product_id = DB::table('products')->where('barcode', request('barcode'))->value('id');
-    $item_exists = OrdersProduct::where('order_id', $current_order)->where('product_id', $product_id);
-
-    if ($item_exists->exists()){
-      $item_exists->update(['quantity' => request('quantity')]);
-      return response()->json(["response" => [
-        'message' => 'Updated existing item!',
-        'request_code' => 204
-        ]
-      ]);
-    }
-
-    OrdersProduct::create([
-      'order_id' => $current_order,
-      'product_id' => $product_id,
-      'status_id' => 1,
-      'quantity' => request('quantity')
-    ]);
-
-    return response()->json(["response" => [
-      'message' => 'Added item!',
-      'request_code' => 200
-      ]
-    ]);
+    
   }
 
   /**
