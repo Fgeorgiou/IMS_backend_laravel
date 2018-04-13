@@ -25,7 +25,7 @@ class OrderController extends Controller
    *
    * @return Response
    */
-  public function create(Request $request)
+  public function create()
   {
     //The controller will search the DB for an order record with pending status and will fetch the corresponding products
     $current_order = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');

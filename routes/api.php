@@ -22,18 +22,16 @@ Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout');
 
-//Order Model routes
+//Order routes
 Route::get('/orders', 'OrderController@index');
 Route::get('/orders/create', 'OrderController@create');
-Route::post('/orders/store', 'OrderController@store');
 Route::post('/order_products/store', 'OrdersProductController@store');
 Route::get('/orders/delete', 'OrderController@destroy');
 
-//Arrival Model routes
+//Arrival routes
 Route::get('/arrivals', 'ArrivalController@index');
 Route::get('/arrivals/create', 'ArrivalController@create');
-Route::post('/arrivals/store', 'OrderController@store');
-Route::post('/arrivals_products/store', 'ArrivalsProductController@store');
+Route::post('/arrival_products/store', 'ArrivalProductController@store');
 
 //User Model routes
 Route::get('/users', 'UserController@index');

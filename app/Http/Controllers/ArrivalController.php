@@ -33,23 +33,11 @@ class ArrivalController extends Controller
     ]);
 
     //Isolating the arrival's id for further querying the corresponsing products
-    $arriving_order = DB::table('arrivals')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
-    $arriving_order_products = ArrivalsProduct::where('arrival_id', '=' , $arriving_order)->get();
+    $arriving_order = Arrival::latest()->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
 
-    //For every product in the current arrival, attach product and stock info
-    foreach ($arriving_order_products as $prod) {
-      $prod->product->stock;
-    }
-
-    return response()->json(
-      ["arriving_order" => 
-        [
-          'arriving_id' => $arriving_order,
-          'arriving_products' => $arriving_order_products->toArray()
-        ]
-      ],
-      200
-    );
+    return response()->json([
+        "arriving_order_id" => $arriving_order
+      ]);
   }
 
   /**
@@ -57,9 +45,9 @@ class ArrivalController extends Controller
    *
    * @return Response
    */
-  public function store(Request $request)
+  public function store()
   {
-    
+
   }
 
   /**
