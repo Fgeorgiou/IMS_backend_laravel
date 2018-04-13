@@ -42,7 +42,7 @@ class OrdersProductController extends Controller
       'quantity' => 'required'
     ]);
 
-    $current_order = DB::table('orders')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    $current_order = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
     $product_id = DB::table('products')->where('barcode', request('barcode'))->value('id');
     $item_exists = OrdersProduct::where('order_id', $current_order)->where('product_id', $product_id);
 

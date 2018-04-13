@@ -29,6 +29,12 @@ Route::post('/orders/store', 'OrderController@store');
 Route::post('/order_products/store', 'OrdersProductController@store');
 Route::get('/orders/delete', 'OrderController@destroy');
 
+//Arrival Model routes
+Route::get('/arrivals', 'ArrivalController@index');
+Route::get('/arrivals/create', 'ArrivalController@create');
+Route::post('/arrivals/store', 'OrderController@store');
+Route::post('/arrivals_products/store', 'ArrivalsProductController@store');
+
 //User Model routes
 Route::get('/users', 'UserController@index');
 Route::post('/users/create', 'UserController@store');
