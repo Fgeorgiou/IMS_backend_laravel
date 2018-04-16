@@ -20,4 +20,9 @@ class ArrivalProductAnomaly extends Model
     {
         return $this->hasMany(\App\Status::class);
     }
+
+    public function arrival()
+    {
+        return $this->belongsTo(\App\Arrival::class);
+    }
 }
