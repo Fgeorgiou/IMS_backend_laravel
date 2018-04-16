@@ -73,10 +73,10 @@ class ArrivalProductController extends Controller
       ]);
 
       return response()->json(["response" => [
-        'message' => 'Unknown Barcode : ' . request('barcode') . '.',
-        'request_code' => 404
-      ]
-    ]);
+          'message' => 'Unknown Barcode : ' . request('barcode') . '.',
+          'request_code' => 404
+        ]
+      ]);
     }
 
     //if the product is registered and doesn't exist in the current arrival, add it as a new record and update the stock count.

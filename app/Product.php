@@ -22,7 +22,7 @@ class Product extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at', 'created_at', 'updated_at'
+        'category_id', 'supplier_id', 'deleted_at', 'created_at', 'updated_at'
     ];
 
     public function supplier()
