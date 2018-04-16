@@ -3,15 +3,15 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOrderProductAnomaliesTable extends Migration {
+class CreateArrivalsProductAnomaliesTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('order_product_anomalies', function(Blueprint $table) {
+		Schema::create('arrivals_product_anomalies', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('order_id')->unsigned();
-			$table->integer('product_id')->unsigned();
+			$table->integer('arrival_id')->unsigned();
 			$table->integer('status_id')->unsigned();
+			$table->string('product_barcode', 13);
 			$table->integer('quantity')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
@@ -20,6 +20,6 @@ class CreateOrderProductAnomaliesTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('order_product_anomalies');
+		Schema::drop('arrivals_product_anomalies');
 	}
 }

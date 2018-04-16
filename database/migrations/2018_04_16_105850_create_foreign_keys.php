@@ -29,12 +29,12 @@ class CreateForeignKeys extends Migration {
 						->onUpdate('no action');
 		});
 		Schema::table('sales_products', function(Blueprint $table) {
-			$table->foreign('product_id')->references('id')->on('products')
+			$table->foreign('sale_id')->references('id')->on('sales')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
 		Schema::table('sales_products', function(Blueprint $table) {
-			$table->foreign('sale_id')->references('id')->on('sales')
+			$table->foreign('product_id')->references('id')->on('products')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
@@ -43,6 +43,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
+		Schema::table('orders', function(Blueprint $table) {
+			$table->foreign('status_id')->references('id')->on('status')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
 		Schema::table('orders_products', function(Blueprint $table) {
 			$table->foreign('order_id')->references('id')->on('orders')
 						->onDelete('no action')
@@ -53,12 +58,37 @@ class CreateForeignKeys extends Migration {
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
-		Schema::table('order_product_anomalies', function(Blueprint $table) {
+		Schema::table('orders_products', function(Blueprint $table) {
+			$table->foreign('status_id')->references('id')->on('roles')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
+		Schema::table('arrivals_product_anomalies', function(Blueprint $table) {
+			$table->foreign('arrival_id')->references('id')->on('arrivals')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
+		Schema::table('arrivals_product_anomalies', function(Blueprint $table) {
+			$table->foreign('status_id')->references('id')->on('status')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
+		Schema::table('products_stock', function(Blueprint $table) {
+			$table->foreign('product_id')->references('id')->on('products')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
+		Schema::table('arrivals', function(Blueprint $table) {
 			$table->foreign('order_id')->references('id')->on('orders')
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
-		Schema::table('order_product_anomalies', function(Blueprint $table) {
+		Schema::table('arrivals_products', function(Blueprint $table) {
+			$table->foreign('arrival_id')->references('id')->on('arrivals')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
+		Schema::table('arrivals_products', function(Blueprint $table) {
 			$table->foreign('product_id')->references('id')->on('products')
 						->onDelete('no action')
 						->onUpdate('no action');
@@ -80,13 +110,16 @@ class CreateForeignKeys extends Migration {
 			$table->dropForeign('products_supplier_id_foreign');
 		});
 		Schema::table('sales_products', function(Blueprint $table) {
-			$table->dropForeign('sales_products_product_id_foreign');
+			$table->dropForeign('sales_products_sale_id_foreign');
 		});
 		Schema::table('sales_products', function(Blueprint $table) {
-			$table->dropForeign('sales_products_sale_id_foreign');
+			$table->dropForeign('sales_products_product_id_foreign');
 		});
 		Schema::table('orders', function(Blueprint $table) {
 			$table->dropForeign('orders_user_id_foreign');
+		});
+		Schema::table('orders', function(Blueprint $table) {
+			$table->dropForeign('orders_status_id_foreign');
 		});
 		Schema::table('orders_products', function(Blueprint $table) {
 			$table->dropForeign('orders_products_order_id_foreign');
@@ -94,11 +127,29 @@ class CreateForeignKeys extends Migration {
 		Schema::table('orders_products', function(Blueprint $table) {
 			$table->dropForeign('orders_products_product_id_foreign');
 		});
-		Schema::table('order_product_anomalies', function(Blueprint $table) {
-			$table->dropForeign('order_product_anomalies_order_id_foreign');
+		Schema::table('orders_products', function(Blueprint $table) {
+			$table->dropForeign('orders_products_status_id_foreign');
 		});
-		Schema::table('order_product_anomalies', function(Blueprint $table) {
-			$table->dropForeign('order_product_anomalies_product_id_foreign');
+		Schema::table('arrivals_product_anomalies', function(Blueprint $table) {
+			$table->dropForeign('arrivals_product_anomalies_order_id_foreign');
+		});
+		Schema::table('arrivals_product_anomalies', function(Blueprint $table) {
+			$table->dropForeign('arrivals_product_anomalies_arrival_id_foreign');
+		});
+		Schema::table('arrivals_product_anomalies', function(Blueprint $table) {
+			$table->dropForeign('arrivals_product_anomalies_status_id_foreign');
+		});
+		Schema::table('products_stock', function(Blueprint $table) {
+			$table->dropForeign('products_stock_product_id_foreign');
+		});
+		Schema::table('arrivals', function(Blueprint $table) {
+			$table->dropForeign('arrivals_order_id_foreign');
+		});
+		Schema::table('arrivals_products', function(Blueprint $table) {
+			$table->dropForeign('arrivals_products_arrival_id_foreign');
+		});
+		Schema::table('arrivals_products', function(Blueprint $table) {
+			$table->dropForeign('arrivals_products_product_id_foreign');
 		});
 	}
 }
