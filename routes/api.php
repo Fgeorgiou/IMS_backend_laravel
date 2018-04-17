@@ -36,7 +36,7 @@ Route::post('/arrival_products/store', 'ArrivalProductController@store');
 //User Model routes
 Route::get('/users', 'UserController@index');
 Route::post('/users/create', 'UserController@store');
-Route::get('/users/{id}', 'UserController@show');
+Route::get('/users/{ean}', 'UserController@show');
 Route::put('/users/update/{user}', 'UserController@update');
 Route::get('/users/delete/{id}', 'UserController@destroy');
 
@@ -51,7 +51,7 @@ Route::get('/products', 'ProductController@index');
 Route::post('/products/create', 'ProductController@store');
 Route::get('/products/show/{id}', 'ProductController@show');
 Route::put('/products/update/{id}', 'ProductController@update');
-Route::get('/products/delete/{id}', 'ProductController@destroy');
+Route::get('/products/delete/{ean}', 'ProductController@destroy');
 
 //Status Model routes
 Route::get('/status', 'StatusController@index');

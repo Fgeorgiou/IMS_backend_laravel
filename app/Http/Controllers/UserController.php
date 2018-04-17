@@ -19,9 +19,9 @@ class UserController extends Controller
             $user->role;
         }
 
-        return response()->json(
-            ["users" => $users->toArray()],
-            200
+        return response()->json([
+            "users" => $users->toArray()
+            ],200
         );
     }
 

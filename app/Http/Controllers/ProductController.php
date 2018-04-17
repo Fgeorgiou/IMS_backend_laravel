@@ -8,6 +8,7 @@ use \App\Supplier;
 use \App\ProductCategory;
 use \App\Stock;
 use DB;
+use Validator;
 
 class ProductController extends Controller 
 {
@@ -20,6 +21,11 @@ class ProductController extends Controller
   public function index()
   {
     $products = Product::all();
+
+    foreach ($products as $product) {
+      $product->supplier;
+      $product->stock;
+    }
 
     return response()->json([
       'products' => $products->toArray()
@@ -43,9 +49,9 @@ class ProductController extends Controller
    */
   public function store(Request $request)
   {
-      $this->validate(request(), [
+      $validator = Validator::make($request->all(), [
         'name' => 'required',
-        'barcode' => 'required',
+        'barcode' => 'required|unique:products',
         'category' => 'required',
         'supplier' => 'required',
         'per_pack' => 'required',
@@ -54,27 +60,42 @@ class ProductController extends Controller
         'lead_days' => 'required',
       ]);
 
-        $product = Product::create([
-          'name' => request('name'),
-          'barcode' => request('barcode'),
-          'category_id' => request('category'),
-          'supplier_id' => request('supplier'),
-          'unit_per_pack' => request('per_pack'),
-          'unit_net_weight_gr' => request('net_weight'),
-          'unit_gross_weight_gr' => request('gross_weight'),
-          'lead_days' => request('lead_days')
-        ]);
+      if($validator->fails()){
+        $message = $validator->errors();
+        return response()->json([
+            'message' => 'Oops! Something went wrong!',
+            'status' => 400,
+            'errors' => $message
+        ]);  
+      }
 
-        $product->save();
+      $product = Product::create([
+        'name' => request('name'),
+        'barcode' => request('barcode'),
+        'category_id' => request('category'),
+        'supplier_id' => request('supplier'),
+        'unit_per_pack' => request('per_pack'),
+        'unit_net_weight_gr' => request('net_weight'),
+        'unit_gross_weight_gr' => request('gross_weight'),
+        'lead_days' => request('lead_days')
+      ]);
 
-        $stock = Stock::create([
-          'product_id' => DB::table('products')->max('id'),
-          'quantity' => 0
-        ]);
+      $product->save();
 
-        $stock->save();
+      $stock = Stock::create([
+        'product_id' => DB::table('products')->max('id'),
+        'quantity' => 0
+      ]);
 
-      return $product;
+      $stock->save();
+
+      $product->stock;
+
+      return response()->json([
+          'message' => 'Product created successful!',
+          'status' => 201,
+          'product' => $product->toArray()
+      ]);
   }
 
   /**
@@ -144,13 +165,20 @@ class ProductController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy(Product $product)
+  public function destroy($ean)
   {
-      $product->delete();
+      $product_to_delete = Product::where('barcode', '=', $ean)->first();
 
-      return response()->json(null, 204);
+      if($product_to_delete != null){
+        $product_to_delete->stock->delete();
+        $product_to_delete->delete();
+      }
+
+      return response()->json([ 'response' => [
+          'message' => 'Product deleted successfully'
+        ]
+      ]);
   }
-  
 }
 
 ?>
