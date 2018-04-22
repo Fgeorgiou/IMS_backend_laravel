@@ -17,7 +17,14 @@ class ArrivalController extends Controller
    */
   public function index()
   {
-    return Arrival::all();
+    $arrivals = Arrival::all();
+
+    foreach ($arrivals as $arrival) {
+      $arrival->arrival_products;
+      $arrival->arrival_anomalies;
+    }
+
+    return $arrivals;
   }
 
   /**

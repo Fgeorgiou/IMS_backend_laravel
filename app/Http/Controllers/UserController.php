@@ -76,8 +76,9 @@ class UserController extends Controller
         ], 200);
       }
     
-    public function update(User $user)
+    public function update($id)
     {
+        $user = User::find($id);
         $user->update($request->all());
 
         return response()->json([

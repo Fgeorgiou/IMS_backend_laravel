@@ -16,6 +16,15 @@ class SalesProduct extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = array('product_id', 'sale_id', 'quantity');
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at', 'updated_at'
+    ];
+
     public function products()
     {
         return $this->hasMany(\App\Product::class);

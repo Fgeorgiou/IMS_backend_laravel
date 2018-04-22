@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 //Registration, Login & Logout routes
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/login', 'Auth\LoginController@login');
@@ -25,6 +21,7 @@ Route::post('/logout', 'Auth\LoginController@logout');
 //Order routes
 Route::get('/orders', 'OrderController@index');
 Route::get('/orders/create', 'OrderController@create');
+Route::get('/orders/store', 'OrderController@store');
 Route::post('/order_products/store', 'OrdersProductController@store');
 Route::get('/orders/delete', 'OrderController@destroy');
 
@@ -36,15 +33,21 @@ Route::post('/arrival_products/store', 'ArrivalProductController@store');
 //User Model routes
 Route::get('/users', 'UserController@index');
 Route::post('/users/create', 'UserController@store');
-Route::get('/users/{ean}', 'UserController@show');
-Route::put('/users/update/{user}', 'UserController@update');
+Route::get('/users/{id}', 'UserController@show');
+Route::put('/users/update/{id}', 'UserController@update');
 Route::get('/users/delete/{id}', 'UserController@destroy');
 
-//Supplier Model routes
-Route::get('/suppliers', 'SupplierController@index');
-Route::post('/suppliers/create', 'SupplierController@store');
-Route::put('/suppliers/update/{id}', 'SupplierController@update');
-Route::get('/suppliers/delete/{id}', 'SupplierController@destroy');
+//Sales routes
+Route::get('/sales', 'SaleController@index');
+// Route::get('/sales/create', 'SaleController@create');
+// Route::post('/sales_products/store', 'SalesProductController@store');
+// Route::get('/sales/delete', 'SaleController@destroy');
+
+//Stock routes
+Route::get('/stock', 'StockController@index');
+// Route::get('/stock/create', 'StockController@create');
+// Route::post('/stock/store', 'StockController@store');
+// Route::get('/stock/delete', 'StockController@destroy');
 
 //Product Model routes
 Route::get('/products', 'ProductController@index');
@@ -52,6 +55,12 @@ Route::post('/products/create', 'ProductController@store');
 Route::get('/products/show/{id}', 'ProductController@show');
 Route::put('/products/update/{id}', 'ProductController@update');
 Route::get('/products/delete/{ean}', 'ProductController@destroy');
+
+//Supplier Model routes
+Route::get('/suppliers', 'SupplierController@index');
+Route::post('/suppliers/create', 'SupplierController@store');
+Route::put('/suppliers/update/{id}', 'SupplierController@update');
+Route::get('/suppliers/delete/{id}', 'SupplierController@destroy');
 
 //Status Model routes
 Route::get('/status', 'StatusController@index');

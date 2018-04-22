@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Sale;
+use \App\SalesProduct;
 
 class SaleController extends Controller 
 {
@@ -14,7 +16,13 @@ class SaleController extends Controller
    */
   public function index()
   {
-    
+    $sales = Sale::all();
+
+    foreach ($sales as $sale) {
+      $sale->sale_products;
+    }
+
+    return $sales;
   }
 
   /**

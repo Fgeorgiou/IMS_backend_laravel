@@ -18,7 +18,12 @@ class Arrival extends Model
 
     public function arrival_products()
     {
-        return $this->hasMany(\App\ArrivalProduct::class);
+        return $this->hasMany(\App\ArrivalsProduct::class);
+    }
+
+    public function arrival_anomalies()
+    {
+        return $this->hasMany(\App\ArrivalProductAnomaly::class);
     }
 
     public function order()

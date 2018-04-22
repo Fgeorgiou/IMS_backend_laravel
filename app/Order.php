@@ -21,11 +21,6 @@ class Order extends Model
         return $this->hasMany(\App\OrdersProduct::class);
     }
 
-    public function order_product_anomalies()
-    {
-        return $this->hasMany(\App\OrderProductAnomaly::class);
-    }
-
     public function status()
     {
         return $this->hasMany(\App\Status::class);

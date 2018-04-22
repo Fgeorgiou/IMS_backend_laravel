@@ -17,7 +17,13 @@ class OrderController extends Controller
    */
   public function index()
   {
+    $orders = Order::all();
 
+    foreach ($orders as $order) {
+      $order->order_products;
+    }
+
+    return $orders;
   }
 
   /**
@@ -48,7 +54,10 @@ class OrderController extends Controller
         ]);
         $current_order = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
       } else {
-        return response()->json("Today's order is sent. Check back tomorrow.");
+        return response()->json([
+          'message' => "Today's order is sent. Check back tomorrow.",
+          'status_code' => 300
+        ]);
       }
     }
 
@@ -70,7 +79,27 @@ class OrderController extends Controller
    */
   public function store()
   {
+    $current_order_id = DB::table('orders')->where('status_id', '=', '1')->whereDate('created_at', DB::raw('CURDATE()'))->value('id');
+    $order_products = OrdersProduct::where('order_id', $current_order_id)->pluck('id');
 
+    if($current_order_id == null){
+      return response()->json(["response" => [
+        'message' => 'No active order was found.',
+        'request_code' => 404
+        ]
+      ]);
+    }
+
+    Order::where('id', $current_order_id)->update(['status_id' => 2]);
+    foreach ($order_products as $product) {
+      OrdersProduct::where('id', $product)->update(['status_id' => 2]);
+    }
+
+    return response()->json(["response" => [
+        'message' => 'Order confirmed! See you tomorrow!',
+        'request_code' => 204
+      ]
+    ]);
   }
 
   /**

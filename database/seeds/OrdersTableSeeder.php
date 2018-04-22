@@ -25,7 +25,7 @@ class OrdersTableSeeder extends Seeder
 
         Order::create([
             'user_id' => $faker->numberBetween($min = 1, $max = 10),
-            'status_id' => 2,
+            'status_id' => 1,
             'created_at' => Carbon::now()
         ]);
 

@@ -7,8 +7,10 @@ use \App\Product;
 use \App\Supplier;
 use \App\ProductCategory;
 use \App\Stock;
+use \App\SalesProduct;
 use DB;
 use Validator;
+use Carbon\Carbon;
 
 class ProductController extends Controller 
 {
@@ -124,6 +126,7 @@ class ProductController extends Controller
 
       return response()->json(['response' => [
           'product' => $product_to_show->toArray(),
+          'suggested_order' => $this->calculate_suggested_order($ean),
           'request_code' => 200
         ]
       ]);
@@ -179,6 +182,44 @@ class ProductController extends Controller
         ]
       ]);
   }
-}
 
+  //Helper function to calculate suggested order quantity.
+  public function calculate_suggested_order($ean)
+  {
+    //Fetch the product by ean
+    $product_to_calc = Product::where('barcode', '=', $ean)->value('id'); //fetch product id
+
+    //Function call to another helper function that calculates sales of respective product in the timegap given and returns the sum of it.
+    $prod_sales_monthly = $this->calculate_product_info($product_to_calc, Carbon::now()->subMonth());
+    $prod_sales_quarter = $this->calculate_product_info($product_to_calc, Carbon::now()->subMonth(3));
+    $prod_sales_half_year = $this->calculate_product_info($product_to_calc, Carbon::now()->subMonth(6));
+    $prod_sales_yearly = $this->calculate_product_info($product_to_calc, Carbon::now()->subYear());
+
+    return $prod_sales_monthly . $prod_sales_quarter . $prod_sales_half_year . $prod_sales_yearly;
+    //A simple derived formula to calculate the average product sales with a 50% gravity given in the past month,
+    //1/6 in the past quarter, 1/6 in the past half of the year and another 1/6 in the total amount of last year's sales.
+    $sales = array($prod_sales_monthly * 3, $prod_sales_quarter, $prod_sales_half_year, $prod_sales_yearly);
+
+    //Summing it all and divide by 6 to get the average, then the average by 365 to get the daily demand.
+    //IMPORTANT: This kind of function will work better with a better dataset.
+    $avg = (array_sum($sales) / 6) / 365;
+
+    return round($avg);
+  }
+
+  public function calculate_product_info($product, $timegap)
+  {
+    //Calculate sales of specified product for the timegap given
+    $prod_sales_obj = SalesProduct::where('product_id', '=', $product)->where('created_at', '>=', $timegap)->pluck('quantity');
+    $prod_sales = 0;
+
+    //loop through the sale's products quantities and add it up to get the sum of it.
+    foreach ($prod_sales_obj as $quan) {
+      $prod_sales = $prod_sales + $quan;
+    }
+
+    return $prod_sales;
+  }
+
+}
 ?>

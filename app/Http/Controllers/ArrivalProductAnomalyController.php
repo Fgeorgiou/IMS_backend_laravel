@@ -14,7 +14,7 @@ class ArrivalProductAnomalyController extends Controller
    */
   public function index()
   {
-    
+
   }
 
   /**
