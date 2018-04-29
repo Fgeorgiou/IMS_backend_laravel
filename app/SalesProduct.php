@@ -25,9 +25,9 @@ class SalesProduct extends Model
         'deleted_at', 'updated_at'
     ];
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(\App\Product::class);
+        return $this->belongsTo(\App\Product::class);
     }
 
 }

@@ -195,7 +195,6 @@ class ProductController extends Controller
     $prod_sales_half_year = $this->calculate_product_info($product_to_calc, Carbon::now()->subMonth(6));
     $prod_sales_yearly = $this->calculate_product_info($product_to_calc, Carbon::now()->subYear());
 
-    return $prod_sales_monthly . $prod_sales_quarter . $prod_sales_half_year . $prod_sales_yearly;
     //A simple derived formula to calculate the average product sales with a 50% gravity given in the past month,
     //1/6 in the past quarter, 1/6 in the past half of the year and another 1/6 in the total amount of last year's sales.
     $sales = array($prod_sales_monthly * 3, $prod_sales_quarter, $prod_sales_half_year, $prod_sales_yearly);
