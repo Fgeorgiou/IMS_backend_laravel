@@ -43,6 +43,15 @@ class SalesReportController extends Controller
 			//Setting up the date variables
 			$start_date = Carbon::createFromFormat('Y-m-d h:i:s', request('start_date') . '00:00:00');
 			$end_date = Carbon::createFromFormat('Y-m-d h:i:s', request('end_date') . '00:00:00');
+			$temp_date = null; //null date to use in swapping start with end dated in case the user proviced a bigger start date.
+
+			//Swapping if needed..
+			if($start_date > $end_date){
+				$temp_date = $end_date;
+				$end_date = $start_date;
+				$start_date = $temp_date;
+			}
+			
 
 			//Querying...
 			$report_data = SalesProduct::select('product_id', DB::raw('sum(quantity) as quantity'))
@@ -68,7 +77,7 @@ class SalesReportController extends Controller
 			$data->product;
 		}
 
-		return response()->json($report_data);
+		return response()->json(["response" => $report_data->toArray()]);
     }
 
 	//This function will return product sales throughtout time. It will receive the Http request and act accordingly.
@@ -107,6 +116,14 @@ class SalesReportController extends Controller
 			//Setting up the date variables
 			$start_date = Carbon::createFromFormat('Y-m-d h:i:s', request('start_date') . '00:00:00');
 			$end_date = Carbon::createFromFormat('Y-m-d h:i:s', request('end_date') . '00:00:00');
+			$temp_date = null; //null date to use in swapping start with end dated in case the user proviced a bigger start date.
+
+			//Swapping if needed..
+			if($start_date > $end_date){
+				$temp_date = $end_date;
+				$end_date = $start_date;
+				$start_date = $temp_date;
+			}
 
 			//Querying...
 			$report_data = SalesProduct::select('created_at', DB::raw('sum(quantity) as quantity'))
@@ -127,6 +144,6 @@ class SalesReportController extends Controller
 			->get();
 		}
 
-		return response()->json($report_data);
+		return response()->json(["response" => $report_data->toArray()]);
     }
 }
