@@ -15,19 +15,20 @@ class SalesReportController extends Controller
 		//Also initialise the report data variable.
 		$dt = DB::table('sales_products')->orderBy('created_at','asc')->value('created_at');
 		$date_limit = Carbon::parse($dt);
-		$result_limit = 5;
+		$result_limit = 10;
 		$report_data = null;
 
 		//if the date limit is provided, set it up.
 		if(request('date_limit') != null)
 		{
 			$date_limit = Carbon::createFromFormat('Y-m-d h:i:s', request('date_limit') . '00:00:00');
+			$result_limit = Carbon::now()->diffInDays($date_limit);
 		}
 
-		//if the month limit is provided, set it up.
-		if(request('month_limit') != null){
+		//if the sub days limit is provided, set it up.
+		if(request('sub_days') != null){
 			//if the limit is provided in a month amount, calculate it and set it up.
-			$date_limit = Carbon::now()->copy()->subMonth(request('month_limit'));
+			$date_limit = Carbon::now()->copy()->subDays(request('sub_days'));
 		}
 
 
@@ -58,7 +59,7 @@ class SalesReportController extends Controller
 			->whereBetween('created_at', [$start_date, $end_date])
 			->groupBy('product_id')
 			->orderBy(DB::raw('sum(quantity)'), 'desc')
-			->limit($result_limit)
+			->limit($start_date->diffInDays($end_date))
 			->get();
     	}
     	//else assume that the user wants to see some form of results from today backwards.
@@ -88,21 +89,21 @@ class SalesReportController extends Controller
 		//Also initialise the report data variable.
 		$dt = DB::table('sales_products')->orderBy('created_at','asc')->value('created_at');
 		$date_limit = Carbon::parse($dt);
-		$result_limit = 5;
+		$result_limit = 10;
 		$report_data = null;
 
 		//if the date limit is provided, set it up.
 		if(request('date_limit') != null)
 		{
 			$date_limit = Carbon::createFromFormat('Y-m-d h:i:s', request('date_limit') . '00:00:00');
+			$result_limit = Carbon::now()->diffInDays($date_limit);
 		}
 
-		//if the month limit is provided, set it up.
-		if(request('month_limit') != null){
-			//if the limit is provided in a month amount, calculate it and set it up.
-			$date_limit = Carbon::now()->copy()->subMonth(request('month_limit'));
+		//if the sub days limit is provided, set it up and adjust the limit to match the days.
+		if(request('sub_days') != null){
+			$date_limit = Carbon::now()->copy()->subDays(request('sub_days'));
+			$result_limit = request('sub_days');
 		}
-
 
 		//if the result limit is provided, set it up.
 		if(request('result_limit') != null)
@@ -126,20 +127,20 @@ class SalesReportController extends Controller
 			}
 
 			//Querying...
-			$report_data = SalesProduct::select('created_at', DB::raw('sum(quantity) as quantity'))
+			$report_data = SalesProduct::select(DB::raw('cast(created_at as date) as Day, sum(quantity) as Sales'))
 			->whereBetween('created_at', [$start_date, $end_date])
-			->groupBy('created_at')
-			->orderBy('created_at', 'desc')
-			->limit($result_limit)
+			->groupBy('Day')
+			->orderBy('Day', 'desc')
+			->limit($start_date->diffInDays($end_date))
 			->get();
 		}
 		else
 		{
 			//Querying...
-			$report_data = SalesProduct::select('created_at', DB::raw('sum(quantity) as quantity'))
+			$report_data = SalesProduct::select(DB::raw('cast(created_at as date) as Day, sum(quantity) as Sales'))
 			->where('created_at', '>=', $date_limit)
-			->groupBy('created_at')
-			->orderBy('created_at', 'desc')
+			->groupBy('Day')
+			->orderBy('Day', 'desc')
 			->limit($result_limit)
 			->get();
 		}

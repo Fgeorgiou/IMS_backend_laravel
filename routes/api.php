@@ -50,8 +50,8 @@ Route::get('/stock', 'StockController@index');
 // Route::get('/stock/delete', 'StockController@destroy');
 
 //Reporting routes
-Route::get('/sales_reports', 'SalesReportController@top_selling_products');
-Route::get('/periodic_sales', 'SalesReportController@periodic_sales');
+Route::get('/sales_reports/top_products', 'SalesReportController@top_selling_products');
+Route::get('/sales_reports/periodic_sales', 'SalesReportController@periodic_sales');
 
 //Product Model routes
 Route::get('/products', 'ProductController@index');
